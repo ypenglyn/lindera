@@ -316,10 +316,8 @@ fn build_user_dict(
                     .build_user_dict(&path)
                     .map_err(|e| LinderaErrorKind::DictionaryBuildError.with_error(e))
             }
-            _ => {
-                return Err(LinderaErrorKind::DictionaryNotFound
-                    .with_error(anyhow::anyhow!("user dictionary path is not set.")));
-            }
+            DictionaryType::LocalDictionary => lindera_dictionary::build_user_dict(&path)
+                .map_err(|e| LinderaErrorKind::DictionaryBuildError.with_error(e)),
         },
         UserDictionaryType::Binary => {
             let user_dict_bin_data =
